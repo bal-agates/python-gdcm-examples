@@ -86,8 +86,8 @@ if __name__ == "__main__":
       # Multi-frame image.
       for frame in range(numpy_array.shape[0]):
           pilImage = Image.fromarray(numpy_array[frame])
-          pilImage.save(sys.argv[1]+f'_{frame}'+'.jpg')
+          pilImage.save(sys.argv[1]+f'_{frame}'+'.png')
   else:
     # Single-frame image
     pilImage = Image.fromarray(numpy_array)
-    pilImage.save(sys.argv[1]+'.jpg')
+    pilImage.save(sys.argv[1]+'.png')
