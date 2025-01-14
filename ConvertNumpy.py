@@ -19,7 +19,8 @@ Caveats:
 - Does not support UINT12/INT12
 
 Removed:
-- float16 is defined in GDCM API but no implementation exist for it ...
+- float16 is defined in GDCM API but no implementation exist for it
+  in numpy.
 """
 
 import gdcm
@@ -48,16 +49,18 @@ def gdcm_to_numpy(image):
     """Converts a GDCM image to a numpy array.
     """
     pf = image.GetPixelFormat()
+    samples_per_pixel = pf.GetSamplesPerPixel()
 
     assert pf.GetScalarType() in get_gdcm_to_numpy_typemap().keys(), \
-           "Unsupported array type %s"%pf
+           f"Unsupported array type {pf}"
 
-    shape = image.GetDimension(0) * image.GetDimension(1), pf.GetSamplesPerPixel()
-    if image.GetNumberOfDimensions() == 3:
-      shape = shape[0] * image.GetDimension(2), shape[1]
+    shape = image.GetDimensions() # (x, y, z) = (cols, rows, frames)
+    shape.reverse()
+    shape.append(samples_per_pixel)
 
     dtype = get_numpy_array_type(pf.GetScalarType())
-    gdcm_array = image.GetBuffer()
+    image_buffer = image.GetBuffer()
+    gdcm_array = image_buffer.encode("utf-8", errors="surrogateescape") # bytes
     result = numpy.frombuffer(gdcm_array, dtype=dtype)
     result.shape = shape
     return result
@@ -71,4 +74,8 @@ if __name__ == "__main__":
     sys.exit(1)
 
   numpy_array = gdcm_to_numpy( r.GetImage() )
-  print numpy_array
+  print("For single-frame shape is (rows, cols, samplesPerPixel)")
+  print("For multi-frame shape is (frames, rows, cols, samplesPerPixel)")
+  print("numpy_array.shape:", numpy_array.shape)
+  print("numpy_array:")
+  print(numpy_array)
