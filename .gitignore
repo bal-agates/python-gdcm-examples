@@ -4,6 +4,9 @@
 # Image file outputs
 *.tif
 *.raw
+*.jpg
+*.jpeg
+*.png
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
