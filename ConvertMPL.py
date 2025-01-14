@@ -51,7 +51,6 @@ def gdcm_to_numpy(image):
     """Converts a GDCM image to a numpy array.
     """
     pi = image.GetPhotometricInterpretation()
-    samples_per_pixel = pi.GetSamplesPerPixel()
     pi_type = pi.GetType()
     print('PhotoInterp:', pi)
     if pi_type == 3:
@@ -63,49 +62,23 @@ def gdcm_to_numpy(image):
     else:
         cmap = None
    
-    pf = image.GetPixelFormat().GetScalarType()
-    print('pixelFormat', pf)
-    print('pixelDataType', image.GetPixelFormat().GetScalarTypeAsString())
-    assert pf in get_gdcm_to_numpy_typemap().keys(), \
+    pf = image.GetPixelFormat()
+    samples_per_pixel = pf.GetSamplesPerPixel()
+
+    assert pf.GetScalarType() in get_gdcm_to_numpy_typemap().keys(), \
            f"Unsupported array type {pf}"
 
-    d = image.GetDimensions()   # (cols, rows[, frames]) = (x, y[, z])
-    assert len(d) == 2, f"Must have 2D image dims={d}"
-    print(f'Image Size: {d[0]} x {d[1]}')
+    shape = image.GetDimensions() # (x, y, z) = (cols, rows, frames)
+    shape.reverse()
+    shape.append(samples_per_pixel)
 
-    dtype = get_numpy_array_type(pf)
-    image_buffer = image.GetBuffer()    # str
-    buffer = image_buffer.encode("utf-8", errors="surrogateescape") # bytes
-    buffer_len = len(buffer)
-    print("len(buffer):", buffer_len)
-    # If pi_type is PALETTE need to decode using lookup table.
-    # Below is the general concept but it has type errors.
-    # lut = image.GetLUT()
-    # decoded_len = 3*buffer_len
-    # decoded_buffer = bytearray(decoded_len)  # init to 0
-    # lut.Decode(decoded_buffer, decoded_len, buffer, buffer_len)
-    # samples_per_pixel *= 3
+    dtype = get_numpy_array_type(pf.GetScalarType())
+    image_buffer = image.GetBuffer()
+    gdcm_array = image_buffer.encode("utf-8", errors="surrogateescape") # bytes
+    result = numpy.frombuffer(gdcm_array, dtype=dtype)
+    result.shape = shape
+    return result, cmap
 
-    # Use float for accurate scaling.
-    # Valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
-    # result = numpy.frombuffer(gdcm_array, dtype=dtype).astype(float)/255.0
-    result = numpy.frombuffer(buffer, dtype=dtype)
-    ## optional gamma scaling
-    #maxV = float(result[result.argmax()])
-    #result = result + .5*(maxV-result)
-    #result = numpy.log(result+50) ## apprx background level
-
-    # Reverse the order of dims so (rows, cols)
-    result.shape = (d[1], d[0], samples_per_pixel)
-    print("numpy shape:", result.shape)
-
-    fig, ax = plt.subplots()
-    ax.set_title(filename)
-    # Many possible colormaps (cmap).
-    ax.imshow(result, cmap=cmap)
-    plt.show()
-
-    return result
 
 if __name__ == "__main__":
     import sys
@@ -113,5 +86,23 @@ if __name__ == "__main__":
     filename = sys.argv[1]
     r.SetFileName( filename )
     if not r.Read():  sys.exit(1)
-    numpy_array = gdcm_to_numpy( r.GetImage() )
+    numpy_array, cmap = gdcm_to_numpy( r.GetImage() )
+
+    if len(numpy_array.shape) == 4:
+        # Multi-frame image.
+        print(f"Warning: only displaying 3 of {numpy_array.shape[0]} images")
+        num_images = min(3, numpy_array.shape[0])
+        fig, axs = plt.subplots(1, num_images)
+        for idx, ax in enumerate(axs):
+            ax.set_title(f"{idx+1}")
+            # Many other possible colormaps (cmap).
+            ax.imshow(numpy_array[idx], cmap=cmap)
+        plt.show()
+    else:
+        # Single-frame image
+        fig, ax = plt.subplots()
+        ax.set_title(filename)
+        # Many possible colormaps (cmap).
+        ax.imshow(numpy_array, cmap=cmap)
+        plt.show()
 
