@@ -7,7 +7,7 @@ small number of test cases copied from the pydicom project.
 
 The following test data came from the [pydicom test files](https://github.com/pydicom/pydicom/tree/main/src/pydicom/data/test_files)
 
-* MR_small_padded.dcm: 64x64x1, 16-bit, MONOCHROME2
+* MR_small_padded.dcm: 64x64x1, 16-bit, MONOCHROME2 (black square)
 * examples_jpeg2k.dcm: 640x480x3, 8-bit, YBR_RCT
 * examples_palette.dcm: 800x350x1, 8-bit, PALETTE (16-bit RGB)
 * examples_rgb_color.dcm: 320x240x3, 8-bit, RGB
