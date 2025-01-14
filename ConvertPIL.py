@@ -55,7 +55,7 @@ def gdcm_to_numpy(image):
     print('PhotoInterp:', pi)
     if pi_type == 3:
         print("WARNING: Palette image not fully decoded")
-        
+
     pf = image.GetPixelFormat()
     samples_per_pixel = pf.GetSamplesPerPixel()
     assert pf.GetScalarType() in get_gdcm_to_numpy_typemap().keys(), \
