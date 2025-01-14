@@ -83,5 +83,5 @@ if __name__ == "__main__":
   print("For single-frame shape is (rows, cols, samplesPerPixel)")
   print("For multi-frame shape is (frames, rows, cols, samplesPerPixel)")
   print("numpy_array.shape:", numpy_array.shape)
-  print("numpy_array:")
-  print(numpy_array)
+  # print("numpy_array:")
+  # print(numpy_array)
