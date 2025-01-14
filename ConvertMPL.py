@@ -70,7 +70,8 @@ def gdcm_to_numpy(image):
 
     shape = image.GetDimensions() # (x, y, z) = (cols, rows, frames)
     shape.reverse()
-    shape.append(samples_per_pixel)
+    if samples_per_pixel > 1:
+      shape.append(samples_per_pixel)
 
     dtype = get_numpy_array_type(pf.GetScalarType())
     image_buffer = image.GetBuffer()
