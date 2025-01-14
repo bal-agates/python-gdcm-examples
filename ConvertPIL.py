@@ -28,13 +28,13 @@ Thanks:
 
 import gdcm
 import numpy
-from PIL import Image, ImageOps
+from PIL import Image
 
 
 def get_gdcm_to_numpy_typemap():
     """Returns the GDCM Pixel Format to numpy array type mapping."""
-    _gdcm_np = {gdcm.PixelFormat.UINT8  :numpy.int8,
-                gdcm.PixelFormat.INT8   :numpy.uint8,
+    _gdcm_np = {gdcm.PixelFormat.UINT8  :numpy.uint8,
+                gdcm.PixelFormat.INT8   :numpy.int8,
                 gdcm.PixelFormat.UINT16 :numpy.uint16,
                 gdcm.PixelFormat.INT16  :numpy.int16,
                 gdcm.PixelFormat.UINT32 :numpy.uint32,
@@ -50,24 +50,21 @@ def get_numpy_array_type(gdcm_pixel_format):
 def gdcm_to_numpy(image):
     """Converts a GDCM image to a numpy array.
     """
-    pf = image.GetPixelFormat().GetScalarType()
-    print 'pf', pf
-    print image.GetPixelFormat().GetScalarTypeAsString()
-    assert pf in get_gdcm_to_numpy_typemap().keys(), \
-           "Unsupported array type %s"%pf
-    d = image.GetDimension(0), image.GetDimension(1)
-    print 'Image Size: %d x %d' % (d[0], d[1])
-    dtype = get_numpy_array_type(pf)
-    gdcm_array = image.GetBuffer()
+    pf = image.GetPixelFormat()
+    samples_per_pixel = pf.GetSamplesPerPixel()
+    assert pf.GetScalarType() in get_gdcm_to_numpy_typemap().keys(), \
+           f"Unsupported array type {pf}"
+    
+    shape = image.GetDimensions() # (x, y, z) = (cols, rows, frames)
+    shape.reverse()
+    shape.append(samples_per_pixel)
+
+    dtype = get_numpy_array_type(pf.GetScalarType())
+    image_buffer = image.GetBuffer()
+    gdcm_array = image_buffer.encode("utf-8", errors="surrogateescape") # bytes
     result = numpy.frombuffer(gdcm_array, dtype=dtype)
-    maxV = float(result[result.argmax()])
-    ## linear gamma adjust
-    #result = result + .5*(maxV-result)
-    ## log gamma
-    result = numpy.log(result+50) ## 50 is apprx background level
-    maxV = float(result[result.argmax()])
-    result = result*(2.**8/maxV) ## histogram stretch
-    result.shape = d
+    result.shape = shape
+
     return result
 
 if __name__ == "__main__":
@@ -77,12 +74,13 @@ if __name__ == "__main__":
   r.SetFileName( filename )
   if not r.Read():  sys.exit(1)
   numpy_array = gdcm_to_numpy( r.GetImage() )
-  ## L is 8 bit grey
-  ## http://www.pythonware.com/library/pil/handbook/concepts.htm
-  pilImage = Image.frombuffer('L',
-                           numpy_array.shape,
-                           numpy_array.astype(numpy.uint8),
-                           'raw','L',0,1)
-  ## cutoff removes background noise and spikes
-  pilImage = ImageOps.autocontrast(pilImage, cutoff=.1)
-  pilImage.save(sys.argv[1]+'.jpg')
+  # Note 1, Pillow (PIL) does not support INT8 and some other color datatypes.
+  if len(numpy_array.shape) == 4:
+      # Multi-frame image.
+      for frame in range(numpy_array.shape[0]):
+          pilImage = Image.fromarray(numpy_array[frame])
+          pilImage.save(sys.argv[1]+f'_{frame}'+'.jpg')
+  else:
+    # Single-frame image
+    pilImage = Image.fromarray(numpy_array)
+    pilImage.save(sys.argv[1]+'.jpg')
