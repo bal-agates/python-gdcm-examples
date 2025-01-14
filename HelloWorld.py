@@ -36,7 +36,7 @@ if __name__ == "__main__":
   r.SetFileName( filename )
   # If the reader fails to read the file, we should stop !
   if not r.Read():
-    print "Not a valid DICOM file"
+    print("Not a valid DICOM file")
     sys.exit(1)
 
   # Get the DICOM File structure
@@ -46,14 +46,14 @@ if __name__ == "__main__":
   dataset = file.GetDataSet()
 
   # Ok let's print it !
-  print dataset
+  print(dataset)
 
   # Use StringFilter to print a particular Tag:
   sf = gdcm.StringFilter()
   sf.SetFile(r.GetFile())
 
   # Check if Attribute exist
-  print dataset.FindDataElement( gdcm.Tag(0x0028,0x0010))
+  print(dataset.FindDataElement( gdcm.Tag(0x0028,0x0010)))
 
   # Let's print it as string pair:
-  print sf.ToStringPair(gdcm.Tag(0x0028,0x0010))
+  print(sf.ToStringPair(gdcm.Tag(0x0028,0x0010)))
