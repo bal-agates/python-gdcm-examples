@@ -48,6 +48,12 @@ def get_numpy_array_type(gdcm_pixel_format):
 def gdcm_to_numpy(image):
     """Converts a GDCM image to a numpy array.
     """
+    pi = image.GetPhotometricInterpretation()
+    pi_type = pi.GetType()
+    print('PhotoInterp:', pi)
+    if pi_type == 3:
+        print("WARNING: Palette image not fully decoded")
+
     pf = image.GetPixelFormat()
     samples_per_pixel = pf.GetSamplesPerPixel()
 
