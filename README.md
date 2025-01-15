@@ -24,7 +24,8 @@ Internet and put a copy in test_data.
 
 ## Updated Source
 
-The following have been updated.
+The following have been updated for Python 3.  I have run "ruff format" on these to make the
+formatting consistent.
 
 * ConvertNumpy.py.  Notes: 1
 * ConvertPIL.py.  Notes: 1
@@ -64,7 +65,7 @@ I do not have good test cases for the following and have not converted them:
 Notes
 
 1) Does not decode palette.  Type problems with gdcm python.
-2) Only displays the first couple of image frames in multi-frame sequence.
+2) By design only displays the first couple of image frames in multi-frame sequence.
 3) Many tests failed on "print(dataset)" with `UnicodeEncodeError: 'utf-8' codec
    can't encode character '\udcf0' in position 1165: surrogates not allowed`.  I
    suspect this is another 'str' vs 'bytes' problem but not sure where.
@@ -79,7 +80,7 @@ Data but the image exported from the merge appears to be the same as file1.
 output.
 7) No runtimes errors.  On a private dataset gdcmdiff showed private tags removed.
 8) Seemed to work.  Reported "Problem with:" on KeepIfExist, GetNumberOfFrames,
-   GetPatientOrientation.  See below.
+   GetPatientOrientation.
 9) Ran without problems.  Found test case noted in comments and it produced the
 expected output.
 10) Ran without problems.  I do not have a test case with comma problem.  Comparing
@@ -87,10 +88,12 @@ my test case input and output gdcmdiff reported no differences.
 11) Ran without errors.  I am not sure if the output is correct.
 12) Ran without errors on private dataset.  I am not sure if the output is correct.
 13) Ran without errors.  I am not sure if the output is correct.  No stdout after
-"Sorter:".
-14) Ran without errors.  I do not have dataset with specific tag so no output and not
-thoroughly tested.  I am not sure what this is supposed to be doing.  Link in
-comments was broken.
+"Sorter:" which is suspicous.
+14) Ran without errors.  I do not have dataset with the specific tag
+(0x2005, 0x1132) so no output and not thoroughly tested.  I am not sure what
+this is supposed to be doing.  Link in comments was broken.
+
+### Error outputs
 
 ``` text
 python HelloWorld.py test_data/examples_palette.dcm
