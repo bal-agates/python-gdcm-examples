@@ -105,10 +105,10 @@ if __name__ == "__main__":
   ano.RemoveGroupLength()
   for tag,rule in tag_rules.items():
     if rule[0] == 'Value':
-      print tag,rule
+      print(tag,rule)
       ano.Replace( gdcm.Tag( tag[0], tag[1] ), rule[1] )
     elif rule[0] == 'Method':
-      print tag,rule
+      print(tag,rule)
       # result = locals()[rule[1]]()
       methodname = rule[1]
       if hasattr(obj, methodname):
@@ -116,7 +116,7 @@ if __name__ == "__main__":
         result = _member()
         ano.Replace( gdcm.Tag( tag[0], tag[1] ), result )
       else:
-        print "Problem with: ", methodname
+        print("Problem with: ", methodname)
 
   outfilename = sys.argv[2]
   w.SetFileName( outfilename )
