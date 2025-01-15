@@ -22,7 +22,7 @@ import gdcm
 import sys
 
 filename = sys.argv[1]
-tmpfile = "/tmp/philips_rescaled.dcm"
+tmpfile = "philips_rescaled.dcm"
 
 
 # Need to access some private tags, read the file :
