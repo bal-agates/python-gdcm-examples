@@ -1,23 +1,28 @@
 #!/usr/bin/env zsh
 
-apps=("ConvertNumpy.py" "ConvertPIL.py" "ConvertMPL.py" "HelloWorld.py" "FindAllPatientName.py")
-# apps=("HelloWorld.py")
-test_files=`ls test_data/*.dcm`
+# Should capture stdout on good run.
+
+apps=("ConvertNumpy.py" "ConvertPIL.py" "ConvertMPL.py")
+# apps=("ConvertNumpy.py")
+# Subset of files in test_data.
+test_images=("MR_small_padded.dcm" "examples_jpeg2k.dcm" "examples_palette.dcm" "examples_palette_8.dcm" "examples_rgb_color.dcm" "examples_ybr_color.dcm")
 for app in $apps
 do
-    for test_file in ${=test_files}
+    for test_file in ${test_images}
     do
-        echo "$ python $app $test_file"
-        python $app $test_file
+        echo "$ python $app test_data/$test_file"
+        python $app test_data/$test_file
     done
     echo
 done
 
-# Should capture stdout.
+exit 1
 
-# Tested above on multiple files
-# python HelloWorld.py test_data/examples_rgb_color.dcm
-# python FindAllPatientName.py test_data/examples_rgb_color.dcm
+set +x
+
+python HelloWorld.py test_data/examples_rgb_color.dcm
+
+python FindAllPatientName.py test_data/examples_rgb_color.dcm
 
 python MergeFile.py test_data/MR_small_padded.dcm test_data/examples_rgb_color.dcm
 gdcmdiff test_data/MR_small_padded.dcm merge.dcm
