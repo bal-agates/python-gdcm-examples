@@ -137,7 +137,6 @@ commented out that line and replaced with local testing directory.
 17) Line 68, bv is None with my dataset.
 18) Fails with `'DataElement' object has no attribute 'GetSequenceOfItems'`
 
-
 ### Error outputs
 
 ``` text
