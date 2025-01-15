@@ -23,7 +23,7 @@ import sys
 
 def PrintProgress(object, event):
   assert event == "ProgressEvent"
-  print "Progress:", object.GetProgress()
+  print("Progress:", object.GetProgress())
 
 def MySort(ds1, ds2):
   # compare ds1
@@ -35,12 +35,12 @@ if __name__ == "__main__":
   d = gdcm.Directory()
   d.Load( dirname )
 
-  print d
+  print(d)
 
   sorter = gdcm.Sorter()
   sorter.SetSortFunction( MySort )
   #sorter.AddObserver( "ProgressEvent", PrintProgress )
   sorter.Sort( d.GetFilenames() )
 
-  print "Sorter:"
-  print sorter
+  print("Sorter:")
+  print(sorter)
