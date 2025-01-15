@@ -30,7 +30,7 @@ if __name__ == "__main__":
     # Check arguments
     if (len(sys.argv) < 2):
         # No filename passed
-        print "No input filename found"
+        print("No input filename found")
         quit()
         
     filename = sys.argv[1]
@@ -40,14 +40,14 @@ if __name__ == "__main__":
     reader = gdcm.Reader()
     reader.SetFileName(filename)
     if (not reader.Read()):
-        print "Unable to read %s" % (filename)
+        print("fUnable to read {filename}")
         quit()
 
     file = reader.GetFile()
 
     # Retrieve header information
     fileMetaInformation = file.GetHeader()
-    print fileMetaInformation
+    print(fileMetaInformation)
 
     # Retrieve data set
     dataSet = file.GetDataSet()
@@ -58,7 +58,7 @@ if __name__ == "__main__":
     mediaStorage.SetFromFile(file)
     if (gdcm.MediaStorage.GetMSType(str(mediaStorage)) != gdcm.MediaStorage.MediaStorageDirectoryStorage):
         # File is not a DICOMDIR
-        print "This file is not a DICOMDIR (Media storage type: %s)" % (str(mediaStorage)) 
+        print("This file is not a DICOMDIR (Media storage type: {str(mediaStorage)})")
         quit()
 
     # Check Media Storage SOP Class
@@ -67,10 +67,10 @@ if __name__ == "__main__":
         # Check SOP UID
         if (sopClassUid != "1.2.840.10008.1.3.10"):
             # File is not a DICOMDIR
-            print "This file is not a DICOMDIR"
+            print("This file is not a DICOMDIR")
     else:
         # Not present
-        print "Media Storage SOP Class not present"
+        print("Media Storage SOP Class not present")
         quit()
 
     # Iterate through the DICOMDIR data set
@@ -95,16 +95,16 @@ if __name__ == "__main__":
 
                     # PATIENT
                     while (value.strip() == "PATIENT"):
-                        print value.strip()
+                        print(value.strip())
                         # Print patient name
                         if (item.FindDataElement(gdcm.Tag(0x0010, 0x0010))):
                             value = str(item.GetDataElement(gdcm.Tag(0x0010, 0x0010)).GetValue())
-                            print value
+                            print(value)
 
                         # Print patient ID
                         if (item.FindDataElement(gdcm.Tag(0x0010, 0x0020))):
                             value = str(item.GetDataElement(gdcm.Tag(0x0010, 0x0020)).GetValue())
-                            print value
+                            print(value)
 
                         # Next
                         itemNr = itemNr + 1
@@ -114,22 +114,22 @@ if __name__ == "__main__":
 
                         # STUDY
                         while (value.strip() == "STUDY"):
-                            print value.strip()
+                            print(value.strip())
 
                             # Print study UID
                             if (item.FindDataElement(gdcm.Tag(0x0020, 0x000d))):
                                 value = str(item.GetDataElement(gdcm.Tag(0x0020, 0x000d)).GetValue())
-                                print value
+                                print(value)
                             
                             # Print study date
                             if (item.FindDataElement(gdcm.Tag(0x0008, 0x0020))):
                                 value = str(item.GetDataElement(gdcm.Tag(0x0008, 0x0020)).GetValue())
-                                print value
+                                print(value)
                             
                             # Print study description
                             if (item.FindDataElement(gdcm.Tag(0x0008, 0x1030))):
                                 value = str(item.GetDataElement(gdcm.Tag(0x0008, 0x1030)).GetValue())
-                                print value
+                                print(value)
 
                             # Next
                             itemNr = itemNr + 1
@@ -139,24 +139,24 @@ if __name__ == "__main__":
                             
                             # SERIES
                             while (value.strip() == "SERIES"):
-                                print value.strip()
+                                print(value.strip())
 
                                 # Print series UID
                                 if (item.FindDataElement(gdcm.Tag(0x0020, 0x000e))):
                                     value = str(item.GetDataElement(gdcm.Tag(0x0020, 0x000e)).GetValue())
-                                    print value
+                                    print(value)
                                 
                                 # Print series modality
                                 if (item.FindDataElement(gdcm.Tag(0x0008, 0x0060))):
                                     value = str(item.GetDataElement(gdcm.Tag(0x0008, 0x0060)).GetValue())
-                                    print "Modality"
-                                    print value
+                                    print("Modality")
+                                    print(value)
 
                                 # Print series description
                                 if (item.FindDataElement(gdcm.Tag(0x0008, 0x103e))):
                                     value = str(item.GetDataElement(gdcm.Tag(0x0008, 0x103e)).GetValue())
-                                    print "Description"
-                                    print value
+                                    print("Description")
+                                    print(value)
                                 
                                 # Next
                                 itemNr = itemNr + 1
@@ -166,12 +166,12 @@ if __name__ == "__main__":
                             
                                 # IMAGE
                                 while (value.strip() == "IMAGE"):
-                                    print value.strip()
+                                    print(value.strip())
 
                                     # Print image UID
                                     if (item.FindDataElement(gdcm.Tag(0x0004, 0x1511))):
                                         value = str(item.GetDataElement(gdcm.Tag(0x0004, 0x1511)).GetValue())
-                                        print value
+                                        print(value)
                                 
                                     # Next
                                     if (itemNr < sequence.GetNumberOfItems()):
