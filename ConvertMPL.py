@@ -94,8 +94,14 @@ if __name__ == "__main__":
     if not r.Read():
         sys.exit(1)
     numpy_array, cmap = gdcm_to_numpy(r.GetImage())
-
-    if len(numpy_array.shape) == 4:
+    print("numpy_array.shape:", numpy_array.shape)
+    print("cmap:", cmap)
+    
+    grayscale = False
+    if cmap is not None:
+        grayscale = cmap.startswith("gray")
+    # gray (frames, rows, cols) same len as rgb (rows, cols, pix)
+    if len(numpy_array.shape) == 4 or (grayscale and len(numpy_array.shape) == 3) :
         # Multi-frame image.
         print(f"Warning: only displaying 3 of {numpy_array.shape[0]} images")
         num_images = min(3, numpy_array.shape[0])
