@@ -53,8 +53,8 @@ python AddPrivateAttribute.py test_data/examples_rgb_color.dcm addattr.dcm
 
 python DecompressImage.py test_data/examples_ybr_color.dcm j.dcm
 
-python ManipulateSequence.py test_data/examples_ybr_color.dcm manip_sq.dcm
-gdcmdiff test_data/examples_ybr_color.dcm manip_sq.dcm
+python ManipulateSequence.py test_data/D_CLUNIE_CT1_J2KI.dcm manip_sq.dcm
+gdcmdiff test_data/D_CLUNIE_CT1_J2KI.dcm manip_sq.dcm
 
 python NewSequence.py test_data/examples_ybr_color.dcm new_sq.dcm
 gdcmdiff test_data/examples_ybr_color.dcm new_sq.dcm
