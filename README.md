@@ -23,11 +23,12 @@ or may not be working properly.
 
 ## Main python-gdcm Library Issues
 
-1) Functions returning raw data, like `image.GetBuffer()`, should be returning Python type **bytes**
+1. Functions returning raw data, like `image.GetBuffer()`, should be returning Python type **bytes**
 and not **str**.  OK to still return **str** for C null terminated strings.
-2) Type checking errors preventing access in Python to some methods or functions.
-  a) C++ function parameters with parameter types of pointer * and refence &.
-  b) C++ types that have no direct equivalent in Python (like uint16).
+2. Type checking errors preventing access in Python to some methods or functions.  This usually
+is due to:
+    1. C++ function parameters with parameter types of pointer * and refence &.
+    2. C++ types that have no direct equivalent in Python (like uint16).
 
 ## Test Data
 
@@ -47,7 +48,7 @@ has been changed to 8-bit index to 8-bit RGB.
 The scripts CreateRAWStorage.py, DecompressImage.py, DumbAnonymizer.py and ExtractImageRegion.py
 reference dataset "gdcmData/012345.002.050.dcm".
 
-The following came from [gcmmData](https://sourceforge.net/p/gdcm/gdcmdata/ci/master/tree/).
+The following came from [gdcmdata](https://sourceforge.net/p/gdcm/gdcmdata/ci/master/tree/).
 
 * DICOMDIR
 * 012345.002.050.dcm
@@ -137,7 +138,7 @@ commented out that line and replaced with local testing directory.
 17) Line 68, bv is None with my dataset.
 18) Fails with `'DataElement' object has no attribute 'GetSequenceOfItems'`
 
-### Error outputs
+### Typical Error Outputs
 
 ``` text
 python HelloWorld.py test_data/examples_palette.dcm
@@ -187,6 +188,15 @@ Problem with:  KeepIfExist
 Problem with:  GetNumberOfFrames
 (32, 32) ('Method', 'GetPatientOrientation')
 Problem with:  GetPatientOrientation
+```
+
+``` text
+python ManipulateSequence.py test_data/D_CLUNIE_CT1_J2KI.dcm manip_sq.dcm
+Traceback (most recent call last):
+  File "/Users/brett/GitHub/python-gdcm-examples/ManipulateSequence.py", line 57, in <module>
+    sqprcs = prcs.GetSequenceOfItems()
+             ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'DataElement' object has no attribute 'GetSequenceOfItems'. Did you mean: 'GetSequenceOfFragments'?
 ```
 
 ## System Info
