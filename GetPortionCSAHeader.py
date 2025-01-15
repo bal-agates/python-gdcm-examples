@@ -38,9 +38,9 @@ if __name__ == "__main__":
   csa_t1 = gdcm.CSAHeader()
   csa_t2 = gdcm.CSAHeader()
   #print csa
-  t1 = csa_t1.GetCSAImageHeaderInfoTag();
+  t1 = csa_t1.GetCSAImageHeaderInfoTag()
   print t1
-  t2 = csa_t2.GetCSASeriesHeaderInfoTag();
+  t2 = csa_t2.GetCSASeriesHeaderInfoTag()
   print t2
   # Let's do it for t1:
   if ds.FindDataElement( t1 ):
@@ -62,7 +62,7 @@ if __name__ == "__main__":
   gdt = csa_t2.GetCSAElementByName( "GradientDelayTime" )
   print gdt
 
-  bv = gdt.GetByteValue();
+  bv = gdt.GetByteValue()
   #print bv
   str = bv.GetPointer()
   print str.split("\\")
