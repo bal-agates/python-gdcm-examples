@@ -126,7 +126,7 @@ if __name__ == "__main__":
   gdcm.Tag(0x0028,0x1051)
   ]
   for tag in taglist:
-    #print tag
+    #print(tag)
     ano.Remove( tag )
 
   # special handling
@@ -144,9 +144,9 @@ if __name__ == "__main__":
   # init FMI now:
   #fmi = f.GetHeader()
   #ts = gdcm.TransferSyntax()
-  #print ts
+  #print(ts)
   #fmi.SetDataSetTransferSyntax( ts ) # default
-  #print fmi.GetDataSetTransferSyntax()
+  #print(fmi.GetDataSetTransferSyntax())
   #de.SetTag( gdcm.Tag(0x0002,0x0010) )
   #uid = "1.2.840.10008.1.2"
   #de.SetByteStringValue( uid )
