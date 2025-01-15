@@ -28,7 +28,7 @@ outname = sys.argv[2]
 r = gdcm.Reader()
 r.SetFileName( filename )
 if not r.Read():
-  print "not valid"
+  print("not valid")
   sys.exit(1)
 
 file = r.GetFile()
@@ -45,7 +45,7 @@ gdcm.Tag(0x0028,0x0030),
 ]
 
 for tag in tags:
-  print tag
+  print(tag)
   if dataset.FindDataElement( tag ):
     pixelspacing = dataset.GetDataElement( tag )
     #print pixelspacing
@@ -63,15 +63,15 @@ w = gdcm.Writer()
 w.SetFile( file )
 w.SetFileName( outname )
 if not w.Write():
-  print "Cannot write"
+  print("Cannot write")
   sys.exit(1)
 
 # paranoid:
 image_reader = gdcm.ImageReader()
 image_reader.SetFileName( outname )
 if not image_reader.Read():
-  print "there is still a comma"
+  print("there is still a comma")
   sys.exit(1)
 
-print "Success!"
+print("Success!")
 sys.exit(0) # success
