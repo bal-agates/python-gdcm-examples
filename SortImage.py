@@ -21,26 +21,28 @@ Usage:
 import gdcm
 import sys
 
+
 def PrintProgress(object, event):
-  assert event == "ProgressEvent"
-  print("Progress:", object.GetProgress())
+    assert event == "ProgressEvent"
+    print("Progress:", object.GetProgress())
+
 
 def MySort(ds1, ds2):
-  # compare ds1
-  return False
+    # compare ds1
+    return False
+
 
 if __name__ == "__main__":
+    dirname = sys.argv[1]
+    d = gdcm.Directory()
+    d.Load(dirname)
 
-  dirname = sys.argv[1]
-  d = gdcm.Directory()
-  d.Load( dirname )
+    print(d)
 
-  print(d)
+    sorter = gdcm.Sorter()
+    sorter.SetSortFunction(MySort)
+    # sorter.AddObserver( "ProgressEvent", PrintProgress )
+    sorter.Sort(d.GetFilenames())
 
-  sorter = gdcm.Sorter()
-  sorter.SetSortFunction( MySort )
-  #sorter.AddObserver( "ProgressEvent", PrintProgress )
-  sorter.Sort( d.GetFilenames() )
-
-  print("Sorter:")
-  print(sorter)
+    print("Sorter:")
+    print(sorter)
