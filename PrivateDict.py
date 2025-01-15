@@ -16,7 +16,6 @@
 """
 
 import gdcm
-import sys,os
 
 if __name__ == "__main__":
   #gdcm.Trace.DebugOn()
@@ -30,6 +29,6 @@ if __name__ == "__main__":
   # have failed but this has no impact on the private dict
 
   d = globInst.GetDicts()
-  print d.GetDictEntry( gdcm.Tag(0x0029,0x0010) ,"SIEMENS CSA HEADER" )
+  print(d.GetDictEntry( gdcm.Tag(0x0029,0x0010) ,"SIEMENS CSA HEADER" ))
   pd = d.GetPrivateDict()
-  print pd.GetDictEntry( gdcm.PrivateTag(0x0029,0x0010,"SIEMENS CSA HEADER") )
+  print(pd.GetDictEntry( gdcm.PrivateTag(0x0029,0x0010,"SIEMENS CSA HEADER") ))
