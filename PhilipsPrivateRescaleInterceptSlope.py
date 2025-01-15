@@ -33,22 +33,22 @@ if not reader.Read():
 
 ds = reader.GetFile().GetDataSet()
 
-#print ds
+#print(ds)
 # (2005,1409)     DS      4       0.0
 # (2005,140a)     DS      16      1.52283272283272
 
 # (2005,0014)     LO      26      Philips MR Imaging DD 005
 tag1 = gdcm.PrivateTag(0x2005,0x09,"Philips MR Imaging DD 005")
 tag2 = gdcm.PrivateTag(0x2005,0x0a,"Philips MR Imaging DD 005")
-print tag1
-print tag2
+print(tag1)
+print(tag2)
 
 # make sure to do a copy, we want the private tag to remain
 # otherwise gdcm gives us a reference
 el1 = gdcm.DataElement( ds.GetDataElement( tag1 ) )
-print el1
+print(el1)
 el2 = gdcm.DataElement( ds.GetDataElement( tag2 ) )
-print el2
+print(el2)
 
 # (0028,1052) DS [-1000]                                  #   6, 1 RescaleIntercept
 # (0028,1053) DS [1]                                      #   2, 1 RescaleSlope
@@ -66,4 +66,4 @@ w.SetFile( reader.GetFile() )
 if not w.Write():
   sys.exit(1)
 
-print "success"
+print("success")
