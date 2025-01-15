@@ -22,8 +22,10 @@ import sys, os
 if __name__ == "__main__":
     r = gdcm.Reader()
     # Will require Testing...
-    dataroot = gdcm.Testing.GetDataRoot()
+    # dataroot = gdcm.Testing.GetDataRoot()   # AttributeError: module 'gdcm' has no attribute 'Testing'
+    dataroot = "./test_data"
     filename = os.path.join(dataroot, "012345.002.050.dcm")
+    print("filename:", filename)
     r.SetFileName(filename)
     r.Read()
     f = r.GetFile()
