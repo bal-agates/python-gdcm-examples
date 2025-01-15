@@ -47,10 +47,11 @@ has been changed to 8-bit index to 8-bit RGB.
 The scripts CreateRAWStorage.py, DecompressImage.py, DumbAnonymizer.py and ExtractImageRegion.py
 reference dataset "gdcmData/012345.002.050.dcm".
 
-The following came from [Creatis](https://git.creatis.insa-lyon.fr/pubgit/?p=gdcmData.git;a=tree;hb=88c37c702494067c874c93cb180a39e37079c679).
+The following came from [gcmmData](https://sourceforge.net/p/gdcm/gdcmdata/ci/master/tree/).
 
 * DICOMDIR
 * 012345.002.050.dcm
+* D_CLUNIE_CT1_J2KI.dcm
 
 ## Updated Source
 
@@ -75,7 +76,7 @@ formatting consistent.
 * AddPrivateAttribute.py.  Notes: 13
 * CreateRawStorage.py.  Notes: 13, 14
 * DecompressImage.py.  Notes: 13
-* ManipulateSequence.py.  Notes: 13, 15
+* ManipulateSequence.py.  Notes: 18
 * NewSequence.py.  Notes: 13
 * GetPortionCSAHeader.py.  Notes: 15, 17
 * ManipulateFile.py.  Notes: 10
@@ -134,6 +135,7 @@ commented out that line and replaced with local testing directory.
 15) Need appropriate input dataset.
 16) Programmatic error.  The var image used before being set.
 17) Line 68, bv is None with my dataset.
+18) Fails with `'DataElement' object has no attribute 'GetSequenceOfItems'`
 
 
 ### Error outputs
