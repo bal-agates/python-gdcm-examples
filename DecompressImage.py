@@ -33,17 +33,17 @@ if __name__ == "__main__":
 
   # check GetFragment API:
   pd = r.GetFile().GetDataSet().GetDataElement(gdcm.Tag(0x7fe0, 0x0010))
-  frags = pd.GetSequenceOfFragments();
-  frags.GetFragment(0);
+  frags = pd.GetSequenceOfFragments()
+  frags.GetFragment(0)
 
   ir = r.GetImage()
   w = gdcm.ImageWriter()
   image = w.GetImage()
 
-  image.SetNumberOfDimensions( ir.GetNumberOfDimensions() );
-  dims = ir.GetDimensions();
-  print ir.GetDimension(0);
-  print ir.GetDimension(1);
+  image.SetNumberOfDimensions( ir.GetNumberOfDimensions() )
+  dims = ir.GetDimensions()
+  print ir.GetDimension(0)
+  print ir.GetDimension(1)
   print "Dims:",dims
 
   #  Just for fun:
@@ -52,14 +52,14 @@ if __name__ == "__main__":
   l = gdcm.Orientation.GetLabel(t)
   print "Orientation label:",l
 
-  image.SetDimension(0, ir.GetDimension(0) );
-  image.SetDimension(1, ir.GetDimension(1) );
+  image.SetDimension(0, ir.GetDimension(0) )
+  image.SetDimension(1, ir.GetDimension(1) )
 
-  pixeltype = ir.GetPixelFormat();
-  image.SetPixelFormat( pixeltype );
+  pixeltype = ir.GetPixelFormat()
+  image.SetPixelFormat( pixeltype )
 
-  pi = ir.GetPhotometricInterpretation();
-  image.SetPhotometricInterpretation( pi );
+  pi = ir.GetPhotometricInterpretation()
+  image.SetPhotometricInterpretation( pi )
 
   pixeldata = gdcm.DataElement( gdcm.Tag(0x7fe0,0x0010) )
   str1 = ir.GetBuffer()
