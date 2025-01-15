@@ -36,7 +36,7 @@ if __name__ == "__main__":
     ds = r.GetFile().GetDataSet()
     csa_t1 = gdcm.CSAHeader()
     csa_t2 = gdcm.CSAHeader()
-    # print csa
+    # print(csa)
     t1 = csa_t1.GetCSAImageHeaderInfoTag()
     print(t1)
     t2 = csa_t2.GetCSASeriesHeaderInfoTag()
@@ -64,6 +64,6 @@ if __name__ == "__main__":
     print(gdt)
 
     bv = gdt.GetByteValue()
-    # print bv
+    # print(bv)
     str = bv.GetPointer()
     print(str.split("\\"))

@@ -62,7 +62,7 @@ if __name__ == "__main__":
 
     pixeldata = gdcm.DataElement(gdcm.Tag(0x7FE0, 0x0010))
     str1 = ir.GetBuffer()
-    # print ir.GetBufferLength()
+    # print(ir.GetBufferLength())
     pixeldata.SetByteStringValue(str1)
     image.SetDataElement(pixeldata)
 

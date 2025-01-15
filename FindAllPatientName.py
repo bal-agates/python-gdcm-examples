@@ -37,7 +37,7 @@ ds.Insert(de)
 cnf = gdcm.CompositeNetworkFunctions()
 theQuery = cnf.ConstructQuery(gdcm.ePatientRootType, gdcm.ePatient, ds)
 
-# print theQuery.ValidateQuery()
+# print(theQuery.ValidateQuery())
 
 # prepare the variable for output
 ret = gdcm.DataSetArrayType()

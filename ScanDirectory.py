@@ -56,7 +56,7 @@ if __name__ == "__main__":
         sys.exit(1)
 
     print("success")
-    # print s
+    # print(s)
 
     pttv = gdcm.PythonTagToValue(s.GetMapping(filenames[1]))
     pttv.Start()

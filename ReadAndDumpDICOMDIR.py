@@ -49,7 +49,7 @@ if __name__ == "__main__":
 
     # Retrieve data set
     dataSet = file.GetDataSet()
-    # print dataSet
+    # print(dataSet)
 
     # Check media storage
     mediaStorage = gdcm.MediaStorage()

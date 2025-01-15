@@ -48,16 +48,16 @@ for tag in tags:
     print(tag)
     if dataset.FindDataElement(tag):
         pixelspacing = dataset.GetDataElement(tag)
-        # print pixelspacing
+        # print(pixelspacing)
         bv = pixelspacing.GetByteValue()
         str = bv.GetBuffer()
-        # print bv.GetLength()
-        # print len(str)
+        # print(bv.GetLength())
+        # print(len(str))
         new_str = str.replace(",", ".")
         # Need to explicitly pass bv.GetLength() to remove any trailing garbage
         ano.Replace(tag, new_str, bv.GetLength())
 
-# print dataset
+# print(dataset)
 
 w = gdcm.Writer()
 w.SetFile(file)
