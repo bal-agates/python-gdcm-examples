@@ -33,18 +33,27 @@ formatting consistent.
 * HelloWorld.py.  Notes: 3
 * FindAllPatientName.py.  Notes: 4
 * MergeFile.py.  Notes: 5
-* ScanDirectory.py.  Notes: 6
+* ScanDirectory.py.  Notes: 11
 * RemovePrivateTags.py.  Notes: 7
 * DumbAnonymizer.py.  Notes: 8
 * ExtractImageRegion.py.  Notes: 9
 * FixCommaBug.py.  Notes: 10
 * PrivateDict.py.  Notes: 11
-* ReadAndDumpDICOMDIR.py.  Notes: 12
+* ReadAndDumpDICOMDIR.py.  Notes: 3
 * SortImage.py.  Notes: 13
 * WriteBuffer.py.  Notes: 14
+* AddPrivateAttribute.py.  Notes: 15
+* CreateRawStorage.py.  Notes: 15, 16
+* DecompressImage.py.  Notes: 15
+* ManipulateSequence.py.  Notes: 15, 17
+* NewSequence.py.  Notes: 15
+* GetPortionCSAHeader.py.  Notes: 17, 19
+* ManipulateFile.py.  Notes: 11
+* PhilipsPrivateRescaleInterceptSlope.py.  Notes 11, 17
+* PlaySound.py.  Notes 17
+* ReWriteSCAsMR.py.  Notes 18
 
-The following all use SetByteStringValue() which is currently not working.  Only FindAllPatientName.py
-has been updated.
+The following all use SetByteStringValue() which is currently not working:
 
 * AddPrivateAttribute.py
 * CreateRAWStorage.py
@@ -53,7 +62,7 @@ has been updated.
 * ManipulateSequence.py
 * NewSequence.py
 
-I do not have good test cases for the following and have not converted them:
+I do not have good test cases for the following:
 
 * GetPortionCSAHeader.py
 * ManipulateFile.py
@@ -64,34 +73,38 @@ I do not have good test cases for the following and have not converted them:
 
 Notes
 
-1) Does not decode palette.  Type problems with gdcm python.
-2) By design only displays the first couple of image frames in multi-frame sequence.
+1) Does not decode palette.  Python type problems with gdcm LookupTable.decode().
+2) By redesign only displays the first couple of image frames in multi-frame
+   sequence.
 3) Many tests failed on "print(dataset)" with `UnicodeEncodeError: 'utf-8' codec
    can't encode character '\udcf0' in position 1165: surrogates not allowed`.  I
    suspect this is another 'str' vs 'bytes' problem but not sure where.
    Uncommenting the (3) trace commands provided no more info.
 4) Runtime error on `de.SetByteStringValue("F*")`. Changing to b"F*" causes
    crash.
-5) `python MergeFile.py test_data/MR_small_padded.dcm test_data/examples_rgb_color.dcm`
-   ran without errors but I do not understand what this should be doing so have
+5) Ran without errors but I do not understand what this should be doing so have
 no idea how to check.  gdcmdiff shows some differences including in the Pixel
 Data but the image exported from the merge appears to be the same as file1.
-6) `python ScanDirectory.py test_data` ran without errors.  I am not sure how to verify
-output.
-7) No runtimes errors.  On a private dataset gdcmdiff showed private tags removed.
+7) No runtimes errors.  gdcmdiff showed at least some private tags removed.
 8) Seemed to work.  Reported "Problem with:" on KeepIfExist, GetNumberOfFrames,
    GetPatientOrientation.
 9) Ran without problems.  Found test case noted in comments and it produced the
 expected output.
-10) Ran without problems.  I do not have a test case with comma problem.  Comparing
-my test case input and output gdcmdiff reported no differences.
+10) Ran without problems.  I do not have a test case with comma problem.
+Comparing my test case input and output gdcmdiff reported no differences.
 11) Ran without errors.  I am not sure if the output is correct.
-12) Ran without errors on private dataset.  I am not sure if the output is correct.
-13) Ran without errors.  I am not sure if the output is correct.  No stdout after
-"Sorter:" which is suspicous.
+13) Ran without errors.  I am not sure if the output is correct.  No stdout
+after "Sorter:" which seems like a problem?
 14) Ran without errors.  I do not have dataset with the specific tag
 (0x2005, 0x1132) so no output and not thoroughly tested.  I am not sure what
 this is supposed to be doing.  Link in comments was broken.
+15) Runtime error with `SetByteStringValue()`
+16) Attribute `Testing` in `gdcm.Testing.GetDataRoot()` does not exists.  I
+commented out that line and replaced with local testing directory.
+17) Need appropriate input dataset.
+18) Programmatic error.  The var image used before being set.
+19) Line 68, bv is None.
+
 
 ### Error outputs
 
