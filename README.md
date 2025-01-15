@@ -18,6 +18,10 @@ has been changed to 8-bit index to 8-bit RGB.
 
 * examples_palette_8.dcm: 800x350x1, 8-bit, PALETTE (8-bit RGB)
 
+The scripts CreateRAWStorage.py, DecompressImage.py, DumbAnonymizer.py and ExtractImageRegion.py
+reference dataset "gdcmData/012345.002.050.dcm".  I was able to find this file on the
+Internet and put a copy in test_data.
+
 ## Updated Source
 
 The following have been updated.
@@ -55,7 +59,6 @@ I do not have good test cases for the following and have not converted them:
 * PhilipsPrivateRescaleInterceptSlope.py
 * PlaySound.py
 * ReWriteSCAsMR.py
-* 
 
 Notes
 
