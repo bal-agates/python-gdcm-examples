@@ -22,53 +22,52 @@ import gdcm
 import sys
 
 if __name__ == "__main__":
+    file1 = sys.argv[1]
+    file2 = sys.argv[2]
 
-  file1 = sys.argv[1]
-  file2 = sys.argv[2]
+    r = gdcm.ImageReader()
+    r.SetFileName(file1)
+    if not r.Read():
+        sys.exit(1)
 
-  r = gdcm.ImageReader()
-  r.SetFileName( file1 )
-  if not r.Read():
-    sys.exit(1)
+    # check GetFragment API:
+    pd = r.GetFile().GetDataSet().GetDataElement(gdcm.Tag(0x7FE0, 0x0010))
+    frags = pd.GetSequenceOfFragments()
+    frags.GetFragment(0)
 
-  # check GetFragment API:
-  pd = r.GetFile().GetDataSet().GetDataElement(gdcm.Tag(0x7fe0, 0x0010))
-  frags = pd.GetSequenceOfFragments()
-  frags.GetFragment(0)
+    ir = r.GetImage()
+    w = gdcm.ImageWriter()
+    image = w.GetImage()
 
-  ir = r.GetImage()
-  w = gdcm.ImageWriter()
-  image = w.GetImage()
+    image.SetNumberOfDimensions(ir.GetNumberOfDimensions())
+    dims = ir.GetDimensions()
+    print(ir.GetDimension(0))
+    print(ir.GetDimension(1))
+    print("Dims:", dims)
 
-  image.SetNumberOfDimensions( ir.GetNumberOfDimensions() )
-  dims = ir.GetDimensions()
-  print(ir.GetDimension(0))
-  print(ir.GetDimension(1))
-  print("Dims:", dims)
+    #  Just for fun:
+    dircos = ir.GetDirectionCosines()
+    t = gdcm.Orientation.GetType(tuple(dircos))
+    l = gdcm.Orientation.GetLabel(t)
+    print("Orientation label:", l)
 
-  #  Just for fun:
-  dircos =  ir.GetDirectionCosines()
-  t = gdcm.Orientation.GetType(tuple(dircos))
-  l = gdcm.Orientation.GetLabel(t)
-  print("Orientation label:", l)
+    image.SetDimension(0, ir.GetDimension(0))
+    image.SetDimension(1, ir.GetDimension(1))
 
-  image.SetDimension(0, ir.GetDimension(0) )
-  image.SetDimension(1, ir.GetDimension(1) )
+    pixeltype = ir.GetPixelFormat()
+    image.SetPixelFormat(pixeltype)
 
-  pixeltype = ir.GetPixelFormat()
-  image.SetPixelFormat( pixeltype )
+    pi = ir.GetPhotometricInterpretation()
+    image.SetPhotometricInterpretation(pi)
 
-  pi = ir.GetPhotometricInterpretation()
-  image.SetPhotometricInterpretation( pi )
+    pixeldata = gdcm.DataElement(gdcm.Tag(0x7FE0, 0x0010))
+    str1 = ir.GetBuffer()
+    # print ir.GetBufferLength()
+    pixeldata.SetByteStringValue(str1)
+    image.SetDataElement(pixeldata)
 
-  pixeldata = gdcm.DataElement( gdcm.Tag(0x7fe0,0x0010) )
-  str1 = ir.GetBuffer()
-  #print ir.GetBufferLength()
-  pixeldata.SetByteStringValue( str1 )
-  image.SetDataElement( pixeldata )
-
-  w.SetFileName( file2 )
-  w.SetFile( r.GetFile() )
-  w.SetImage( image )
-  if not w.Write():
-    sys.exit(1)
+    w.SetFileName(file2)
+    w.SetFile(r.GetFile())
+    w.SetImage(image)
+    if not w.Write():
+        sys.exit(1)
