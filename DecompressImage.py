@@ -42,15 +42,15 @@ if __name__ == "__main__":
 
   image.SetNumberOfDimensions( ir.GetNumberOfDimensions() )
   dims = ir.GetDimensions()
-  print ir.GetDimension(0)
-  print ir.GetDimension(1)
-  print "Dims:",dims
+  print(ir.GetDimension(0))
+  print(ir.GetDimension(1))
+  print("Dims:", dims)
 
   #  Just for fun:
   dircos =  ir.GetDirectionCosines()
   t = gdcm.Orientation.GetType(tuple(dircos))
   l = gdcm.Orientation.GetLabel(t)
-  print "Orientation label:",l
+  print("Orientation label:", l)
 
   image.SetDimension(0, ir.GetDimension(0) )
   image.SetDimension(1, ir.GetDimension(1) )
