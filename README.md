@@ -42,7 +42,8 @@ The following have been updated.
 * SortImage.py.  Notes: 13
 * WriteBuffer.py.  Notes: 14
 
-The following all use SetByteStringValue() which is currently not working.
+The following all use SetByteStringValue() which is currently not working.  Only FindAllPatientName.py
+has been updated.
 
 * AddPrivateAttribute.py
 * CreateRAWStorage.py
