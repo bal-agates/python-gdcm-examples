@@ -18,7 +18,7 @@ done
 
 # exit 1
 
-set +x
+setopt verbose
 
 python HelloWorld.py test_data/examples_rgb_color.dcm
 
@@ -73,3 +73,5 @@ gdcmdiff test_data/examples_ybr_color.dcm philips_rescaled.dcm
 python PlaySound.py test_data/examples_ybr_color.dcm
 
 python ReWriteSCAsMR.py test_data/MR_small_padded.dcm rewrite.dcm
+
+unsetopt verbose
