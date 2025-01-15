@@ -36,53 +36,53 @@ if __name__ == "__main__":
   import sys
   filename = sys.argv[1]
 
-  file_size = gdcm.System.FileSize(filename);
+  file_size = gdcm.System.FileSize(filename)
 
   # instantiate the reader:
-  reader = gdcm.ImageRegionReader();
-  reader.SetFileName( filename );
+  reader = gdcm.ImageRegionReader()
+  reader.SetFileName( filename )
 
   # pull DICOM info:
   if not reader.ReadInformation():
     sys.exit(1)
 
   # store current offset:
-  cur_pos = reader.GetStreamCurrentPosition();
+  cur_pos = reader.GetStreamCurrentPosition()
 
-  remaining = file_size - cur_pos;
+  remaining = file_size - cur_pos
 
-  print("Remaining bytes to read (Pixel Data): %d" % remaining );
+  print(f"Remaining bytes to read (Pixel Data): {remaining}")
 
   # Get file infos
-  f = reader.GetFile();
+  f = reader.GetFile()
 
   # get some info about image
-  dims = gdcm.ImageHelper.GetDimensionsValue(f);
+  dims = gdcm.ImageHelper.GetDimensionsValue(f)
   print(dims)
-  pf = gdcm.ImageHelper.GetPixelFormatValue (f);
-  pixelsize = pf.GetPixelSize();
-  pi = gdcm.ImageHelper.GetPhotometricInterpretationValue(f);
-  print( pi );
+  pf = gdcm.ImageHelper.GetPixelFormatValue (f)
+  pixelsize = pf.GetPixelSize()
+  pi = gdcm.ImageHelper.GetPhotometricInterpretationValue(f)
+  print( pi )
 
   # buffer to get the pixels
   buffer = bytearray( dims[0] * dims[1] * pixelsize )
 
   # define a simple box region.
-  box = gdcm.BoxRegion();
+  box = gdcm.BoxRegion()
   for z in range(0, dims[2]):
     # Define that I want the image 0, full size (dimx x dimy pixels)
     # and do that for each z:
-    box.SetDomain(0, dims[0] - 1, 0, dims[1] - 1, z, z);
-    #print( box.toString() );
-    reader.SetRegion( box );
+    box.SetDomain(0, dims[0] - 1, 0, dims[1] - 1, z, z)
+    #print( box.toString() )
+    reader.SetRegion( box )
 
     # reader will try to load the uncompressed image region into buffer.
     # the call returns an error when buffer.Length is too small. For instance
     # one can call:
-    # uint buf_len = reader.ComputeBufferLength(); // take into account pixel size
+    # uint buf_len = reader.ComputeBufferLength() // take into account pixel size
     # to get the exact size of minimum buffer
     if reader.ReadIntoBuffer(buffer):
-      open('/tmp/frame.raw', 'wb').write(buffer)
+      open('frame.raw', 'wb').write(buffer)
     else:
-      #throw new Exception("can't read pixels error");
+      #throw new Exception("can't read pixels error")
       sys.exit(1)
