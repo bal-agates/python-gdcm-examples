@@ -34,24 +34,24 @@ formatting consistent.
 * FindAllPatientName.py.  Notes: 4
 * MergeFile.py.  Notes: 5
 * ScanDirectory.py.  Notes: 11
-* RemovePrivateTags.py.  Notes: 7
-* DumbAnonymizer.py.  Notes: 8
-* ExtractImageRegion.py.  Notes: 9
-* FixCommaBug.py.  Notes: 10
-* PrivateDict.py.  Notes: 11
+* RemovePrivateTags.py.  Notes: 6
+* DumbAnonymizer.py.  Notes: 7
+* ExtractImageRegion.py.  Notes: 8
+* FixCommaBug.py.  Notes: 9
+* PrivateDict.py.  Notes: 10
 * ReadAndDumpDICOMDIR.py.  Notes: 3
-* SortImage.py.  Notes: 13
-* WriteBuffer.py.  Notes: 14
-* AddPrivateAttribute.py.  Notes: 15
-* CreateRawStorage.py.  Notes: 15, 16
-* DecompressImage.py.  Notes: 15
-* ManipulateSequence.py.  Notes: 15, 17
-* NewSequence.py.  Notes: 15
-* GetPortionCSAHeader.py.  Notes: 17, 19
-* ManipulateFile.py.  Notes: 11
-* PhilipsPrivateRescaleInterceptSlope.py.  Notes 11, 17
-* PlaySound.py.  Notes 17
-* ReWriteSCAsMR.py.  Notes 18
+* SortImage.py.  Notes: 11
+* WriteBuffer.py.  Notes: 12
+* AddPrivateAttribute.py.  Notes: 13
+* CreateRawStorage.py.  Notes: 13, 14
+* DecompressImage.py.  Notes: 13
+* ManipulateSequence.py.  Notes: 13, 15
+* NewSequence.py.  Notes: 13
+* GetPortionCSAHeader.py.  Notes: 15, 17
+* ManipulateFile.py.  Notes: 10
+* PhilipsPrivateRescaleInterceptSlope.py.  Notes 10, 15
+* PlaySound.py.  Notes 15
+* ReWriteSCAsMR.py.  Notes 16
 
 The following all use SetByteStringValue() which is currently not working:
 
@@ -85,25 +85,25 @@ Notes
 5) Ran without errors but I do not understand what this should be doing so have
 no idea how to check.  gdcmdiff shows some differences including in the Pixel
 Data but the image exported from the merge appears to be the same as file1.
-7) No runtimes errors.  gdcmdiff showed at least some private tags removed.
-8) Seemed to work.  Reported "Problem with:" on KeepIfExist, GetNumberOfFrames,
+6) No runtimes errors.  gdcmdiff showed at least some private tags removed.
+7) Seemed to work.  Reported "Problem with:" on KeepIfExist, GetNumberOfFrames,
    GetPatientOrientation.
-9) Ran without problems.  Found test case noted in comments and it produced the
+8) Ran without problems.  Found test case noted in comments and it produced the
 expected output.
-10) Ran without problems.  I do not have a test case with comma problem.
+9) Ran without problems.  I do not have a test case with comma problem.
 Comparing my test case input and output gdcmdiff reported no differences.
-11) Ran without errors.  I am not sure if the output is correct.
-13) Ran without errors.  I am not sure if the output is correct.  No stdout
+10) Ran without errors.  I am not sure if the output is correct.
+11) Ran without errors.  I am not sure if the output is correct.  No stdout
 after "Sorter:" which seems like a problem?
-14) Ran without errors.  I do not have dataset with the specific tag
+12) Ran without errors.  I do not have dataset with the specific tag
 (0x2005, 0x1132) so no output and not thoroughly tested.  I am not sure what
 this is supposed to be doing.  Link in comments was broken.
-15) Runtime error with `SetByteStringValue()`
-16) Attribute `Testing` in `gdcm.Testing.GetDataRoot()` does not exists.  I
+13) Runtime error with `SetByteStringValue()`
+14) Attribute `Testing` in `gdcm.Testing.GetDataRoot()` does not exists.  I
 commented out that line and replaced with local testing directory.
-17) Need appropriate input dataset.
-18) Programmatic error.  The var image used before being set.
-19) Line 68, bv is None.
+15) Need appropriate input dataset.
+16) Programmatic error.  The var image used before being set.
+17) Line 68, bv is None.
 
 
 ### Error outputs
