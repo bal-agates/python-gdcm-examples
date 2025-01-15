@@ -46,5 +46,5 @@ ret = gdcm.DataSetArrayType()
 cnf.CFind('dicom.example.com',11112,theQuery,ret,'GDCM_PYTHON','ANY-SCP')
 
 for i in range(0,ret.size()):
-  print "Patient #",i
-  print ret[i]
+  print("Patient #",i)
+  print(ret[i])
