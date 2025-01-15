@@ -24,27 +24,26 @@ import sys
 import gdcm
 
 if __name__ == "__main__":
+    file1 = sys.argv[1]
+    file2 = sys.argv[2]
 
-  file1 = sys.argv[1]
-  file2 = sys.argv[2]
+    r = gdcm.Reader()
+    r.SetFileName(file1)
+    if not r.Read():
+        sys.exit(1)
 
-  r = gdcm.Reader()
-  r.SetFileName( file1 )
-  if not r.Read():
-    sys.exit(1)
+    f = r.GetFile()
+    ds = f.GetDataSet()
 
-  f = r.GetFile()
-  ds = f.GetDataSet()
+    # Create a dataelement
+    de = gdcm.DataElement(gdcm.Tag(0x0051, 0x1011))
+    de.SetByteStringValue("p2")
+    de.SetVR(gdcm.VR(gdcm.VR.SH))
 
-  # Create a dataelement
-  de = gdcm.DataElement(gdcm.Tag(0x0051, 0x1011))
-  de.SetByteStringValue("p2")
-  de.SetVR(gdcm.VR(gdcm.VR.SH))
+    ds.Insert(de)
 
-  ds.Insert(de)
-
-  w = gdcm.Writer()
-  w.SetFile( f )
-  w.SetFileName( file2 )
-  if not w.Write():
-    sys.exit(1)
+    w = gdcm.Writer()
+    w.SetFile(f)
+    w.SetFileName(file2)
+    if not w.Write():
+        sys.exit(1)
