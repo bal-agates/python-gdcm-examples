@@ -1,7 +1,33 @@
 # python-gdcm-examples
 
-Examples with python-gdcm.  The starting point was extracting the Python source from [GDCM 3.0.24](https://github.com/malaterre/GDCM/tree/v3.0.24/Examples/Python).  These were updated for Python 3 and run against a
-small number of test cases copied from the pydicom project.
+Examples with python-gdcm.  The starting point was extracting the Python source
+from [GDCM
+3.0.24](https://github.com/malaterre/GDCM/tree/v3.0.24/Examples/Python).  These
+were updated for Python 3 and run against a small number of test cases.  The main
+Python 2 -> 3 change was **print()** statements which I have updated.  Another
+was Python 3 changes to differentiate between type **str** and **bytes**.  This
+is still causing some problems that need to be fixed in the library.
+
+The other change I made was running "ruff format" on all of the "*.py".  Mostly
+this was to make the files more consistent.  The main change here was indent spacing
+which varied between files.  In a few places this removed unneeded "()" or did
+line folding on long lines.
+
+The most useful examples for me were ConvertNumpy.py, ConvertPIL.py and ConvertMPL.py which
+I enhanced some to handle multi-frame datasets.  This still has the problem that
+palette images cannot be decoded because of SWIG type errors.
+
+Many of the other programs I do not understand what they are trying to do an
+often do not have an appropriate dataset to test.  They have been converted but may
+or may not be working properly.
+
+## Main python-gdcm Library Issues
+
+1) Functions returning raw data, like `image.GetBuffer()`, should be returning Python type **bytes**
+and not **str**.  OK to still return **str** for C null terminated strings.
+2) Type checking errors preventing access in Python to some methods or functions.
+  a) C++ function parameters with parameter types of pointer * and refence &.
+  b) C++ types that have no direct equivalent in Python (like uint16).
 
 ## Test Data
 
@@ -19,8 +45,12 @@ has been changed to 8-bit index to 8-bit RGB.
 * examples_palette_8.dcm: 800x350x1, 8-bit, PALETTE (8-bit RGB)
 
 The scripts CreateRAWStorage.py, DecompressImage.py, DumbAnonymizer.py and ExtractImageRegion.py
-reference dataset "gdcmData/012345.002.050.dcm".  I was able to find this file on the
-Internet and put a copy in test_data.
+reference dataset "gdcmData/012345.002.050.dcm".
+
+The following came from [Creatis](https://git.creatis.insa-lyon.fr/pubgit/?p=gdcmData.git;a=tree;hb=88c37c702494067c874c93cb180a39e37079c679).
+
+* DICOMDIR
+* 012345.002.050.dcm
 
 ## Updated Source
 
@@ -53,7 +83,7 @@ formatting consistent.
 * PlaySound.py.  Notes 15
 * ReWriteSCAsMR.py.  Notes 16
 
-The following all use SetByteStringValue() which is currently not working:
+The following all use SetByteStringValue() which is currently uncallable due to type errors:
 
 * AddPrivateAttribute.py
 * CreateRAWStorage.py
@@ -62,7 +92,7 @@ The following all use SetByteStringValue() which is currently not working:
 * ManipulateSequence.py
 * NewSequence.py
 
-I do not have good test cases for the following:
+I do not have good test case datasets for the following:
 
 * GetPortionCSAHeader.py
 * ManipulateFile.py
@@ -103,7 +133,7 @@ this is supposed to be doing.  Link in comments was broken.
 commented out that line and replaced with local testing directory.
 15) Need appropriate input dataset.
 16) Programmatic error.  The var image used before being set.
-17) Line 68, bv is None.
+17) Line 68, bv is None with my dataset.
 
 
 ### Error outputs
