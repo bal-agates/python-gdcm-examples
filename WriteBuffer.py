@@ -70,7 +70,7 @@ if __name__ == "__main__":
       fg.SetNumberOfFilenames( nitems )
       fg.SetPrefix( file2 )
       if not fg.Generate():
-        print "problem"
+        print("problem")
         sys.exit(1)
       for i in range(0,nitems):
         item1 = sqsis.GetItem(i+1) # Item start at 1
@@ -79,6 +79,6 @@ if __name__ == "__main__":
         if nestedds.FindDataElement( tprcs ):
           prcs = nestedds.GetDataElement( tprcs )
           bv = prcs.GetByteValue()
-          print bv
+          print(bv)
           f = open( fg.GetFilename(i) , "w" )
           f.write( bv.WriteBuffer() )
