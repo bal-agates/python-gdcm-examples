@@ -29,47 +29,46 @@ import sys
 import gdcm
 
 if __name__ == "__main__":
+    file1 = sys.argv[1]
+    file2 = sys.argv[2]
 
-  file1 = sys.argv[1]
-  file2 = sys.argv[2]
+    r = gdcm.Reader()
+    r.SetFileName(file1)
+    if not r.Read():
+        sys.exit(1)
 
-  r = gdcm.Reader()
-  r.SetFileName( file1 )
-  if not r.Read():
-    sys.exit(1)
-
-  ano = gdcm.Anonymizer()
-  ano.SetFile( r.GetFile() )
-  ano.RemovePrivateTags()
-  ano.Remove( gdcm.Tag(0x0032,0x1030) )
-  ano.Remove( gdcm.Tag(0x008,0x14) )
-  ano.Remove( gdcm.Tag(0x008,0x1111) )
-  ano.Remove( gdcm.Tag(0x008,0x1120) )
-  ano.Remove( gdcm.Tag(0x008,0x1140) )
-  ano.Remove( gdcm.Tag(0x10,0x21b0) )
-  ano.Empty( gdcm.Tag(0x10,0x10) )
-  ano.Empty( gdcm.Tag(0x10,0x20) )
-  ano.Empty( gdcm.Tag(0x10,0x30) )
-  ano.Empty( gdcm.Tag(0x20,0x10) )
-  ano.Empty( gdcm.Tag(0x32,0x1032) )
-  ano.Empty( gdcm.Tag(0x32,0x1033) )
-  ano.Empty( gdcm.Tag(0x40,0x241) )
-  ano.Empty( gdcm.Tag(0x40,0x254) )
-  ano.Empty( gdcm.Tag(0x40,0x253) )
-  ano.Empty( gdcm.Tag(0x40,0x1001) )
-  ano.Empty( gdcm.Tag(0x8,0x80) )
-  ano.Empty( gdcm.Tag(0x8,0x50) )
-  ano.Empty( gdcm.Tag(0x8,0x1030) )
-  ano.Empty( gdcm.Tag(0x8,0x103e) )
-  ano.Empty( gdcm.Tag(0x18,0x1030) )
-  ano.Empty( gdcm.Tag(0x38,0x300) )
-  g = gdcm.UIDGenerator()
-  ano.Replace( gdcm.Tag(0x0008,0x0018), g.Generate() )
-  ano.Replace( gdcm.Tag(0x0020,0x00d), g.Generate() )
-  ano.Replace( gdcm.Tag(0x0020,0x00e), g.Generate() )
-  ano.Replace( gdcm.Tag(0x0020,0x052), g.Generate() )
-  #ano.Replace( gdcm.Tag(0x0008,0x0016), "1.2.840.10008.5.1.4.1.1.7.2" )
-  """
+    ano = gdcm.Anonymizer()
+    ano.SetFile(r.GetFile())
+    ano.RemovePrivateTags()
+    ano.Remove(gdcm.Tag(0x0032, 0x1030))
+    ano.Remove(gdcm.Tag(0x008, 0x14))
+    ano.Remove(gdcm.Tag(0x008, 0x1111))
+    ano.Remove(gdcm.Tag(0x008, 0x1120))
+    ano.Remove(gdcm.Tag(0x008, 0x1140))
+    ano.Remove(gdcm.Tag(0x10, 0x21B0))
+    ano.Empty(gdcm.Tag(0x10, 0x10))
+    ano.Empty(gdcm.Tag(0x10, 0x20))
+    ano.Empty(gdcm.Tag(0x10, 0x30))
+    ano.Empty(gdcm.Tag(0x20, 0x10))
+    ano.Empty(gdcm.Tag(0x32, 0x1032))
+    ano.Empty(gdcm.Tag(0x32, 0x1033))
+    ano.Empty(gdcm.Tag(0x40, 0x241))
+    ano.Empty(gdcm.Tag(0x40, 0x254))
+    ano.Empty(gdcm.Tag(0x40, 0x253))
+    ano.Empty(gdcm.Tag(0x40, 0x1001))
+    ano.Empty(gdcm.Tag(0x8, 0x80))
+    ano.Empty(gdcm.Tag(0x8, 0x50))
+    ano.Empty(gdcm.Tag(0x8, 0x1030))
+    ano.Empty(gdcm.Tag(0x8, 0x103E))
+    ano.Empty(gdcm.Tag(0x18, 0x1030))
+    ano.Empty(gdcm.Tag(0x38, 0x300))
+    g = gdcm.UIDGenerator()
+    ano.Replace(gdcm.Tag(0x0008, 0x0018), g.Generate())
+    ano.Replace(gdcm.Tag(0x0020, 0x00D), g.Generate())
+    ano.Replace(gdcm.Tag(0x0020, 0x00E), g.Generate())
+    ano.Replace(gdcm.Tag(0x0020, 0x052), g.Generate())
+    # ano.Replace( gdcm.Tag(0x0008,0x0016), "1.2.840.10008.5.1.4.1.1.7.2" )
+    """
   ano.Remove( gdcm.Tag(0x0018,0x0020) ) # ScanningSequence
   ano.Remove( gdcm.Tag(0x0018,0x0021) ) # SequenceVariant
   ano.Remove( gdcm.Tag(0x0018,0x0022) ) # ScanOptions
@@ -101,8 +100,8 @@ if __name__ == "__main__":
   ano.Replace( gdcm.Tag(0x2050, 0x0020), "IDENTITY")
   """
 
-  w = gdcm.Writer()
-  w.SetFile( ano.GetFile() )
-  w.SetFileName( file2 )
-  if not w.Write():
-    sys.exit(1)
+    w = gdcm.Writer()
+    w.SetFile(ano.GetFile())
+    w.SetFileName(file2)
+    if not w.Write():
+        sys.exit(1)
