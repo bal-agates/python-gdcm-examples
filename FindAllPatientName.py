@@ -25,26 +25,26 @@ Usage:
 import gdcm
 
 # Patient Name
-tag = gdcm.Tag(0x10,0x10)
+tag = gdcm.Tag(0x10, 0x10)
 de = gdcm.DataElement(tag)
 
 # Search all patient name where string match 'F*'
-de.SetByteStringValue('F*')
+de.SetByteStringValue("F*")
 
 ds = gdcm.DataSet()
 ds.Insert(de)
 
 cnf = gdcm.CompositeNetworkFunctions()
-theQuery = cnf.ConstructQuery (gdcm.ePatientRootType,gdcm.ePatient,ds)
+theQuery = cnf.ConstructQuery(gdcm.ePatientRootType, gdcm.ePatient, ds)
 
-#print theQuery.ValidateQuery()
+# print theQuery.ValidateQuery()
 
 # prepare the variable for output
 ret = gdcm.DataSetArrayType()
 
 # Execute the C-FIND query
-cnf.CFind('dicom.example.com',11112,theQuery,ret,'GDCM_PYTHON','ANY-SCP')
+cnf.CFind("dicom.example.com", 11112, theQuery, ret, "GDCM_PYTHON", "ANY-SCP")
 
-for i in range(0,ret.size()):
-  print("Patient #",i)
-  print(ret[i])
+for i in range(0, ret.size()):
+    print("Patient #", i)
+    print(ret[i])
